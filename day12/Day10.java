@@ -1,15 +1,15 @@
-package adventofcode.day7;
+package adventofcode.day12;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
 
-public class Day7 {
+public class Day10 {
 
 	private Scanner scanner;
-	private int day = 7;
+	private int day = 10;
 	
-	public Day7() {
+	public Day10() {
 		
 		System.out.println("## Advent of Code 2023 ##\n#### Day "+ day +" Solutions ####");
 		System.out.println("Part 1: " + partOne());

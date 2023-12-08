@@ -1,17 +1,18 @@
 package adventofcode;
 
-import adventofcode.day1.*;
-import adventofcode.day2.*;
-import adventofcode.day3.*;
-import adventofcode.day4.*;
-import adventofcode.day5.*;
-import adventofcode.day6.*;
-import adventofcode.day7.*;
+import adventofcode.day01.*;
+import adventofcode.day02.*;
+import adventofcode.day03.*;
+import adventofcode.day04.*;
+import adventofcode.day05.*;
+import adventofcode.day06.*;
+import adventofcode.day07.*;
+import adventofcode.day08.*;
 
 public class AdventOfCode {
 
 	public static void main(String[] args) {
-		new Day2();
+		new Day8();
 	}
 	
 }

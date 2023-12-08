@@ -1,8 +1,7 @@
-package adventofcode.day1;
+package adventofcode.day01;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Day1 {
@@ -24,8 +23,13 @@ public class Day1 {
 		}
 		
 		int total = 0;
+		int totalOneNum = 0;
+		
+		boolean oneNum = false;
+		
 		while(scan.hasNextLine()) {
 			String line = scan.nextLine();
+			String debug = line;
 			int first = -1;
 			int last = -1;
 			for(int i = 0; i < line.length(); i++) {
@@ -33,9 +37,16 @@ public class Day1 {
 				if('0' <= c && c <= '9') {
 					if (first == -1) {
 						first = Integer.parseInt(c+"");
+						oneNum = true;
+					}else {
+						oneNum = false;
 					}
 					last = Integer.parseInt(c+"");
 				}
+			}
+			if(oneNum) {
+				System.out.println(debug);
+				totalOneNum += first;
 			}
 			int num = Integer.parseInt(first + "" + last);
 			total += num;
@@ -44,6 +55,7 @@ public class Day1 {
 		scan.close();
 		
 		System.out.println("Total: " + total);
+		System.out.println("TotalOneNum: " + totalOneNum);
 	}
 	
 	public void partTwo() {
