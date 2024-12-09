@@ -21,7 +21,7 @@ public class Day6 {
 		int startX = 0, startY = 0;
 		
 		try {
-			scan = new Scanner(new File("2024/test.txt"));
+			scan = new Scanner(new File("2024/day6_1.txt"));
 			while(scan.hasNextLine()) {
 				lines.add(scan.nextLine());
 			}
@@ -42,17 +42,17 @@ public class Day6 {
 		
 		map = patrol(map, startX, startY);
 		
-		System.out.println(total);
+		System.out.println(total+1);
 		
 	}
 	
 	private char[][] patrol(char[][] map, int x, int y){
 		
 		while(inBounds(map, x, y)) {
-			printMap(map);
-			char dir = map[x][y];
-			map[x][y] = '#';
-			total++;
+			char dir = map[y][x];
+			int lx = x;
+			int ly = y;
+			map[y][x] = 'X';
 			if(dir == '^')
 				y--;
 			else if(dir == '>')
@@ -63,10 +63,17 @@ public class Day6 {
 				x--;
 			
 			if(inBounds(map, x, y)) {
-				if(map[x][y] == '#')
-					map[x][y] = turn(dir);
+				if(map[y][x] == '#') {
+					x = lx;
+					y = ly;
+					map[y][x] = turn(dir);
+				}
 				else
-					map[x][y] = dir;
+				{
+					if(map[y][x] == '.')
+						total++;
+					map[y][x] = dir;
+				}
 			}
 		}
 		
