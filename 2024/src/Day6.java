@@ -3,6 +3,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.Scanner;
 
 public class Day6 {
@@ -13,15 +14,16 @@ public class Day6 {
     int startX = 0;
     int startY = 0;
     long loopStartTime = System.currentTimeMillis();
+    HashSet<Pos> obstacles = new HashSet<>();
 
     public Day6() {
-        
-        //test(Arrays.stream(test).map(char[]::clone).toArray(char[][]::new));
+
         readMap("2024/day6_1.txt");
-        //partOne();
+        partOne();
         partTwo();
     }
-    
+
+    private record Pos(int x, int y) {};
     private record PosAndDir(int x, int y, char dir) {};
 
     private void readMap(String fileString){
@@ -54,15 +56,18 @@ public class Day6 {
     }
 
     private char[][] patrol(char[][] map, int x, int y) {
-        
-        int loopCount = 0;
-        int steps = 0;
+
+        HashSet<PosAndDir> history = new HashSet<>();
         while (inBounds(map, x, y)) {
-            steps++;
-            if(steps > 100000)
-                return null;
-                //printMap(map);
             char dir = map[y][x];
+
+            PosAndDir now = new PosAndDir(x, y, dir);
+            if(history.contains(now)){
+                return null;
+            }else{
+                history.add(now);
+            }
+
             int lx = x;
             int ly = y;
             map[y][x] = 'X';
@@ -78,15 +83,6 @@ public class Day6 {
 
             if (inBounds(map, x, y)) {
                 if (map[y][x] == '#' || map[y][x] == 'O') {
-                    
-                    if(map[y][x] == 'O'){
-                        loopCount++;
-                        if(loopCount > 1){
-                            //System.out.println(loopTotal);
-                            //return null;
-                        }
-                    }
-                    
                     x = lx;
                     y = ly;
                     map[y][x] = turn(dir);
@@ -129,15 +125,9 @@ public class Day6 {
                 } else {
                     checkLoop(map, x, y);
                     map[y][x] = dir;
-                    //map[ly][lx] = dir;
-                    
-                    //map[ly][lx] = '.';
-                    
-                    
                 }
             }
         }
-
         return map;
     }
     
@@ -148,7 +138,11 @@ public class Day6 {
         copy[y][x] = 'O';
         copy[startY][startX] = '^';
         if(patrol(copy, startX, startY) == null){
-            loopTotal++;
+            Pos pos = new Pos(x, y);
+            if(!obstacles.contains(pos)) {
+                loopTotal++;
+                obstacles.add(pos);
+            }
             return true;
         }
         return false;
@@ -184,18 +178,7 @@ public class Day6 {
 
     private void partTwo() {
         char[][] patrolMap = Arrays.stream(originalMap).map(char[]::clone).toArray(char[][]::new);
-        patrolMap = patrolLoop(patrolMap, startX, startY);
+        patrolLoop(patrolMap, startX, startY);
         System.out.println(loopTotal);
-        
-        //loop through the map, at every location that has an X, try placing a wall, then run the patrol and check for a loop.
-//        for(int i = 0; i < map.length; i++){
-//            for(int j = 0; j < map[i].length; j++){
-//                
-//                if(map[i][j] == 'X')
-//                
-//            }
-//        }
-        
     }
-
 }
